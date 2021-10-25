@@ -1,0 +1,32 @@
+.sidebar{
+    position: fixed;
+}
+
+.text-center{
+    text-align: center;
+}
+.item{
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 40px 0px 10px;
+}
+.item p{
+    margin: 0;
+    font-weight: 500;
+    font-size: 14px;
+}
+.totalSize p{
+    font-size: 18px;
+    color: #b12704;
+    font-weight: 700;
+}
+.review-cart{
+    width: 180px;
+    padding: 4px 0;
+    background-color: goldenrod;
+    border: 1px solid gray;
+    border-radius: 3px;
+    font-weight: 500;
+    cursor: pointer;
+    margin:7px 0px 0px 50px;
+}
