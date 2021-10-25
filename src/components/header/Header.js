@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react/cjs/react.development';
+import useAuth from '../../hooks/useAuth';
 import Product from '../Product/Product';
 import './Header.css'
 
 const Header = () => {
     const [products, setProducts] =useState([])
     const [matchProduct, setMatchProducts] = useState([])
+    const {user,logOut} = useAuth()
     useEffect(()=>{
         fetch('./products.json')
         .then(response => response.json())
@@ -26,7 +28,13 @@ const Header = () => {
                 <Link to="/shop">Shop</Link>
                 <Link to="/review">Order</Link>
                 <Link to="/inventory">Inventory</Link>
-                <Link to="/login">Login</Link>
+                user.email && {user.displayName}
+                {
+                    user.email ? <button onClick={logOut}>LogOut</button>
+                    :
+                    <Link to="/login">Login</Link>
+                }
+               
         
             </nav>
             <div className="search-container">
