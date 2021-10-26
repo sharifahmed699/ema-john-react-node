@@ -8,6 +8,7 @@ import OrderReview from './components/OrderReview/OrderReview';
 import PlaceOrder from './components/PlaceOrder/PlaceOrder';
 import PrivateRoute from './components/privateRoute/PrivateRoute';
 import Register from './components/Register/Register';
+import SearchResult from './components/SearchResult/SearchResult';
 import Shop from './components/Shop/Shop';
 import AuthProvider from './Context/AuthProvider';
 
@@ -38,6 +39,9 @@ function App() {
             </Route>
             <Route path="/register">
               <Register></Register>
+            </Route>
+            <Route path="/search">
+              <SearchResult></SearchResult>
             </Route>
             <Route path="*">
               <NotFound></NotFound>

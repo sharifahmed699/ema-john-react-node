@@ -1,52 +1,57 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react/cjs/react.development';
 import useAuth from '../../hooks/useAuth';
-import Product from '../Product/Product';
+import useProducts from '../../hooks/useProducts';
+import SearchResult from '../SearchResult/SearchResult';
 import './Header.css'
 
 const Header = () => {
-    const [products, setProducts] =useState([])
-    const [matchProduct, setMatchProducts] = useState([])
+    const [products] =useProducts()
     const {user,logOut} = useAuth()
-    useEffect(()=>{
-        fetch('./products.json')
-        .then(response => response.json())
-        .then(data => setProducts(data))
-    },[])
+    const [match,setMatch] = useState([])
     const handleSerach = e =>{
         const searchText = e.target.value
         const matchProduct = products.filter(product => product.name.toLowerCase().includes(searchText.toLowerCase()))
-        setMatchProducts(matchProduct);
+        setMatch(matchProduct);
     }
+    const handleSearch = ()=>{
+        setMatch([])
+    }
+   
     return (
        <div>
             <div className="header">
-            <Link to="/"> <h3>E-Online</h3></Link>
+            <Link to="/"> <h3>Ema-John</h3></Link>
            
             <nav>
                 <Link to="/shop">Shop</Link>
                 <Link to="/review">Order</Link>
                 <Link to="/inventory">Inventory</Link>
-                user.email && {user.displayName}
-                {
-                    user.email ? <button onClick={logOut}>LogOut</button>
-                    :
-                    <Link to="/login">Login</Link>
-                }
-               
-        
             </nav>
             <div className="search-container">
                 <input type="text" onChange={handleSerach} name="" id="" placeholder="Search"/>
             </div>
+           <div>
+                user?.email && <span className="username">Hello, {user.displayName}</span>
+                {
+                    user.email ? <span onClick={logOut} className="logout">LogOut</span>
+                    :
+                    <Link to="/login" className="login">Login</Link>
+                }
+           </div>
+               
         </div>
-         {
-            matchProduct.map(product => <Product 
-                key = {product.key}
-                product={product}
-                ></Product>)
-        }
+        <div className="shop-container">
+            <div className="product-container">
+                {
+                    match?.map(product => <SearchResult 
+                        key = {product.key}
+                        product={product}
+                        handleSearch={handleSearch}
+                        ></SearchResult>)
+                }
+            </div>
+        </div>
        </div>
     );
 };
