@@ -1,11 +1,21 @@
 import { useEffect, useState } from "react"
 import {getStoredCart } from "../utilities/localStorage"
 
-const useCart = products =>{
+const useCart = ()=>{
     const [carts, setCarts]=useState([])
     useEffect(()=>{
-        if(products.length){
-            const savedCart = getStoredCart()
+        const savedCart = getStoredCart()
+        const keys = Object.keys(savedCart)
+        fetch('http://localhost:5000/products/keys',{
+            method:'POST',
+            headers:{
+                'content-type':'application/json'
+            },
+            body:JSON.stringify(keys)
+        })
+        .then(res=>res.json())
+        .then(products=>{
+            if(products.length){ 
             const storeCard = []
             for(const key in savedCart){
                 const addedProduct = products.find(product => product.key === key)
@@ -17,7 +27,10 @@ const useCart = products =>{
             }
             setCarts(storeCard)
         }
-    },[products])
+
+        })
+        
+    },[])
     return [carts,setCarts]
 }
 

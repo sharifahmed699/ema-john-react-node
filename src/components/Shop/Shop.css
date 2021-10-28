@@ -5,3 +5,14 @@
 .product-container{
     border-right: 1px solid lightgray;
 }
+.pagination{
+    margin: 50px;
+    padding-left: 300px;
+}
+.pagination button{
+    margin-right: 5px;
+}
+.pagination .selected{
+    background-color: blueviolet;
+    color: white;
+}

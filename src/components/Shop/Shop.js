@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useCart from '../../hooks/usecart';
-import useProducts from '../../hooks/useProducts';
 import { addToDb } from '../../utilities/localStorage';
 import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
 import './Shop.css'
 
 const Shop = () => {
-    const [products] = useProducts()
-    const [carts,setCarts] = useCart(products)
+    const [products,setProducts] = useState([])
+    const [pageCount,setPageCount]  = useState(0)
+    const [page,setPage] = useState(0)
+    const [carts,setCarts] = useCart()
+    const size =10
+    
+    useEffect(()=>{
+        fetch(`http://localhost:5000/products?page=${page}&&size=${size}`)
+        .then(response => response.json())
+        .then(data => {
+            setProducts(data.result)
+            const count = data.count
+            const pageNum = Math.ceil(count/size)
+            setPageCount(pageNum)
+        })
+    },[page])
 
 
     const handleAddToCart = product =>{
@@ -37,6 +50,15 @@ const Shop = () => {
                         handleAddToCart={handleAddToCart}
                         ></Product>)
                 }
+                <div className="pagination">
+                    {
+                        [...Array(pageCount).keys()].map(index=> <button
+                            className={index===page ? 'selected':''}
+                            key={index}
+                            onClick={()=>setPage(index)}
+                        >{index+1}</button>)
+                    }
+                </div>
             </div>
             <div className="cart-container">
                <Cart cart={carts}>
